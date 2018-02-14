@@ -29,6 +29,7 @@ function fetchAndDisplayGif(event) {
     if ($("#verify").val() != 5) {
 
         setGifLoadedStatus(false);
+        $("#test").addClass("has-error");
         $("#feedback").text("No Jackson gif for you!");
     }
     else {
@@ -47,8 +48,7 @@ function fetchAndDisplayGif(event) {
                 // 1. set the source attribute of our image to the image_url of the GIF
                 // 2. hide the feedback message and display the image
                 $("#gif").attr("src", response.data.image_url);
-                $("#gif").attr("hidden", false);
-                $("#feedback").attr("hidden", true);
+                setGifLoadedStatus(true);
             },
             error: function() {
                 // if something went wrong, the code in here will execute instead of the success function
@@ -63,6 +63,7 @@ function fetchAndDisplayGif(event) {
         // TODO
         // give the user a "Loading..." message while they wait
         setGifLoadedStatus(false);
+        $("#test").removeClass("has-error");
         $("#feedback").text("Loading...");
     }
 }
@@ -75,5 +76,10 @@ function fetchAndDisplayGif(event) {
  */
 function setGifLoadedStatus(isCurrentlyLoaded) {
     $("#gif").attr("hidden", !isCurrentlyLoaded);
-    $("#feedback").attr("hidden", isCurrentlyLoaded);
+    if (isCurrentlyLoaded) {
+        $("#feedback").addClass("hidden");
+    }
+    else{
+        $("#feedback").removeClass("hidden");
+    }
 }
